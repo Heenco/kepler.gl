@@ -35,8 +35,7 @@
     "./src/reducers",
     "./src/components",
     "./src/duckdb",
-    "./src/ai-assistant",
-    "./examples/demo-app"
+    "./src/ai-assistant"
   ],
   "repository": {
     "type": "git",

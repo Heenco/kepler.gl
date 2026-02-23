@@ -8,7 +8,7 @@ import {config as dotenvConfig} from 'dotenv';
 import process from 'node:process';
 import fs from 'node:fs';
 import {spawn} from 'node:child_process';
-import {join} from 'node:path';
+import {join, resolve} from 'node:path';
 
 const args = process.argv;
 
@@ -16,7 +16,7 @@ const args = process.argv;
 dotenvConfig({path: '.env'});
 
 // Helper function to normalize paths for esbuild (always use forward slashes)
-const normalizePath = (path) => path.replace(/\\/g, '/');
+const normalizePath = (path) => resolve(path).replace(/\\/g, '/');
 
 const BASE_NODE_MODULES_DIR = './node_modules';
 
@@ -25,11 +25,20 @@ const LIB_DIR = '../../';
 // Auto-detect workspace vs standalone environment
 const WORKSPACE_NODE_MODULES = join(LIB_DIR, 'node_modules');
 const WORKSPACE_PACKAGE_JSON = join(LIB_DIR, 'package.json');
-const isWorkspaceEnvironment = fs.existsSync(WORKSPACE_NODE_MODULES) && fs.existsSync(WORKSPACE_PACKAGE_JSON);
+const WORKSPACE_SRC = join(LIB_DIR, 'src');
 
-// Use workspace paths if available, otherwise use local paths
+// Check if we're in a workspace by verifying workspace structure exists
+const isWorkspaceEnvironment = 
+  fs.existsSync(WORKSPACE_PACKAGE_JSON) && 
+  fs.existsSync(WORKSPACE_SRC) &&
+  fs.existsSync(WORKSPACE_NODE_MODULES);
+
+// Always prefer workspace node_modules if available (even if local node_modules exists)
 const NODE_MODULES_DIR = isWorkspaceEnvironment ? WORKSPACE_NODE_MODULES : BASE_NODE_MODULES_DIR;
-const SRC_DIR = isWorkspaceEnvironment ? join(LIB_DIR, 'src') : null;
+const SRC_DIR = isWorkspaceEnvironment ? WORKSPACE_SRC : null;
+
+console.log(`Building in ${isWorkspaceEnvironment ? 'workspace' : 'standalone'} mode`);
+console.log(`Using node_modules from: ${NODE_MODULES_DIR}`);
 
 // Load package.json for version info (optional in standalone mode)
 let KeplerPackage = {version: '0.0.0'};
@@ -71,6 +80,7 @@ const getThirdPartyLibraryAliases = useKeplerNodeModules => {
     'styled-components': normalizePath(`${nodeModulesDir}/styled-components`),
     'react-intl': normalizePath(`${nodeModulesDir}/react-intl`),
     'react-palm': normalizePath(`${nodeModulesDir}/react-palm`),
+    'redux-thunk': normalizePath(`${nodeModulesDir}/redux-thunk`),
     // kepler.gl and loaders.gl need to use same apache-arrow
     'apache-arrow': normalizePath(`${nodeModulesDir}/apache-arrow`)
   };
@@ -283,7 +293,7 @@ function openURL(url) {
         sourcemap: false,
         // Add alias resolution for build
         alias: {
-          ...getThirdPartyLibraryAliases(false)
+          ...getThirdPartyLibraryAliases(isWorkspaceEnvironment)
         },
         // Add these production optimizations
         define: {
