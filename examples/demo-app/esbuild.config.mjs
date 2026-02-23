@@ -9,7 +9,6 @@ import process from 'node:process';
 import fs from 'node:fs';
 import {spawn} from 'node:child_process';
 import {join} from 'node:path';
-import KeplerPackage from '../../package.json' with {type: 'json'};
 
 const args = process.argv;
 
@@ -22,8 +21,26 @@ const normalizePath = (path) => path.replace(/\\/g, '/');
 const BASE_NODE_MODULES_DIR = './node_modules';
 
 const LIB_DIR = '../../';
-const NODE_MODULES_DIR = join(LIB_DIR, 'node_modules');
-const SRC_DIR = join(LIB_DIR, 'src');
+
+// Auto-detect workspace vs standalone environment
+const WORKSPACE_NODE_MODULES = join(LIB_DIR, 'node_modules');
+const WORKSPACE_PACKAGE_JSON = join(LIB_DIR, 'package.json');
+const isWorkspaceEnvironment = fs.existsSync(WORKSPACE_NODE_MODULES) && fs.existsSync(WORKSPACE_PACKAGE_JSON);
+
+// Use workspace paths if available, otherwise use local paths
+const NODE_MODULES_DIR = isWorkspaceEnvironment ? WORKSPACE_NODE_MODULES : BASE_NODE_MODULES_DIR;
+const SRC_DIR = isWorkspaceEnvironment ? join(LIB_DIR, 'src') : null;
+
+// Load package.json for version info (optional in standalone mode)
+let KeplerPackage = {version: '0.0.0'};
+if (isWorkspaceEnvironment) {
+  try {
+    const packageJson = JSON.parse(fs.readFileSync(WORKSPACE_PACKAGE_JSON, 'utf8'));
+    KeplerPackage = packageJson;
+  } catch (e) {
+    console.warn('Could not load package.json:', e.message);
+  }
+}
 
 // For debugging deck.gl, load deck.gl from external deck.gl directory
 const EXTERNAL_DECK_SRC = join(LIB_DIR, 'deck.gl');
@@ -122,7 +139,7 @@ const config = {
 };
 
 function addAliases(externals, args) {
-  const resolveAlias = getThirdPartyLibraryAliases(true);
+  const resolveAlias = getThirdPartyLibraryAliases(isWorkspaceEnvironment);
 
   // Combine flags
   const useLocalDeck = args.includes('--env.deck') || args.includes('--env.hubble_src');
@@ -266,7 +283,7 @@ function openURL(url) {
         sourcemap: false,
         // Add alias resolution for build
         alias: {
-          ...getThirdPartyLibraryAliases(true)
+          ...getThirdPartyLibraryAliases(false)
         },
         // Add these production optimizations
         define: {
