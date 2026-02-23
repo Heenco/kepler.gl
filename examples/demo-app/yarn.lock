@@ -352,20 +352,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@deck.gl/aggregation-layers@npm:^8.9.27":
-  version: 8.9.36
-  resolution: "@deck.gl/aggregation-layers@npm:8.9.36"
+"@deck.gl/aggregation-layers@npm:8.9.27":
+  version: 8.9.27
+  resolution: "@deck.gl/aggregation-layers@npm:8.9.27"
   dependencies:
     "@babel/runtime": "npm:^7.0.0"
-    "@luma.gl/constants": "npm:^8.5.21"
-    "@luma.gl/shadertools": "npm:^8.5.21"
+    "@luma.gl/constants": "npm:^8.5.20"
+    "@luma.gl/shadertools": "npm:^8.5.20"
     "@math.gl/web-mercator": "npm:^3.6.2"
     d3-hexbin: "npm:^0.2.1"
   peerDependencies:
     "@deck.gl/core": ^8.0.0
     "@deck.gl/layers": ^8.0.0
     "@luma.gl/core": ^8.0.0
-  checksum: 10c0/a3ec6a2b6dc664a82302370de503379c9f9fb8f7fa741a5d0d99e5b971bcb4213d0411939a8894b74daa742e9053fc396f0181d1f5c06168d0cb71a0af4e7dfd
+  checksum: 10c0/cca23feffc4fc719c74d0d65cbced2073dfe92f13347f2199340c9bcffac61a684acf893c20e31244ac11ef6a12a948eed3017f1bf4520899f2b5a796f39e7e4
   languageName: node
   linkType: hard
 
@@ -409,9 +409,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@deck.gl/geo-layers@npm:^8.9.27":
-  version: 8.9.36
-  resolution: "@deck.gl/geo-layers@npm:8.9.36"
+"@deck.gl/geo-layers@npm:8.9.27":
+  version: 8.9.27
+  resolution: "@deck.gl/geo-layers@npm:8.9.27"
   dependencies:
     "@babel/runtime": "npm:^7.0.0"
     "@loaders.gl/3d-tiles": "npm:^3.4.13"
@@ -422,8 +422,8 @@ __metadata:
     "@loaders.gl/terrain": "npm:^3.4.13"
     "@loaders.gl/tiles": "npm:^3.4.13"
     "@loaders.gl/wms": "npm:^3.4.13"
-    "@luma.gl/constants": "npm:^8.5.21"
-    "@luma.gl/experimental": "npm:^8.5.21"
+    "@luma.gl/constants": "npm:^8.5.20"
+    "@luma.gl/experimental": "npm:^8.5.20"
     "@math.gl/core": "npm:^3.6.2"
     "@math.gl/culling": "npm:^3.6.2"
     "@math.gl/web-mercator": "npm:^3.6.2"
@@ -437,18 +437,18 @@ __metadata:
     "@deck.gl/mesh-layers": ^8.0.0
     "@loaders.gl/core": ^3.4.13
     "@luma.gl/core": ^8.0.0
-  checksum: 10c0/c5326b3fb22b1eb63bb2dd8abcf0db0e829700a8a20f19900c8e8471ad4dd8d28cc4a18bfe7931515659e83b9e878241743a9b4a47131b4723bb902e7bcf3841
+  checksum: 10c0/419f64e943fbcbd437aeb5ebb9f68af589ae46aba167291dc951e48d231085886073f1802558afc2b330886ea6f9841772563b39ea85ad53cfff8120d4def3f0
   languageName: node
   linkType: hard
 
-"@deck.gl/layers@npm:^8.9.27":
-  version: 8.9.36
-  resolution: "@deck.gl/layers@npm:8.9.36"
+"@deck.gl/layers@npm:8.9.27":
+  version: 8.9.27
+  resolution: "@deck.gl/layers@npm:8.9.27"
   dependencies:
     "@babel/runtime": "npm:^7.0.0"
     "@loaders.gl/images": "npm:^3.4.13"
     "@loaders.gl/schema": "npm:^3.4.13"
-    "@luma.gl/constants": "npm:^8.5.21"
+    "@luma.gl/constants": "npm:^8.5.20"
     "@mapbox/tiny-sdf": "npm:^2.0.5"
     "@math.gl/core": "npm:^3.6.2"
     "@math.gl/polygon": "npm:^3.6.2"
@@ -458,29 +458,29 @@ __metadata:
     "@deck.gl/core": ^8.0.0
     "@loaders.gl/core": ^3.4.13
     "@luma.gl/core": ^8.0.0
-  checksum: 10c0/e3a7d1f57ccbc9c2fe7606bdc0a604d3e3598ef7eaa8d4b1b44ef295318a91a0a241ae3698b414830c8b6589281aa96f239856b071f52e283c552d58830a75da
+  checksum: 10c0/de3902d8239922a4741f6ca7fa87d2d6e2bec5837c8427104eb1e90889101098846d820ecb6c8a5f88dcedf8086b0ead17e2429754f662502958203236e0af8a
   languageName: node
   linkType: hard
 
-"@deck.gl/mesh-layers@npm:^8.9.27":
-  version: 8.9.36
-  resolution: "@deck.gl/mesh-layers@npm:8.9.36"
+"@deck.gl/mesh-layers@npm:8.9.27":
+  version: 8.9.27
+  resolution: "@deck.gl/mesh-layers@npm:8.9.27"
   dependencies:
     "@babel/runtime": "npm:^7.0.0"
     "@loaders.gl/gltf": "npm:^3.4.13"
-    "@luma.gl/constants": "npm:^8.5.21"
-    "@luma.gl/experimental": "npm:^8.5.21"
-    "@luma.gl/shadertools": "npm:^8.5.21"
+    "@luma.gl/constants": "npm:^8.5.20"
+    "@luma.gl/experimental": "npm:^8.5.20"
+    "@luma.gl/shadertools": "npm:^8.5.20"
   peerDependencies:
     "@deck.gl/core": ^8.0.0
     "@luma.gl/core": ^8.0.0
-  checksum: 10c0/8c1fcf6aeaaf5c710c3d4d0d107255d554799e61d16a12c59015513a3d2abffda354a0ff3d9370979e30189d9a5a68a083cc07cc83e385d7c519f50859d6164f
+  checksum: 10c0/1f85b8387da2cb5cf6be983c6a185cb307bc806dc20f0b52df1beb14fe57ae458d13380fa58e7f1d47ad04fab1dfc8e973a924ab942f9e08d680994147400b22
   languageName: node
   linkType: hard
 
-"@deck.gl/react@npm:^8.9.27":
-  version: 8.9.36
-  resolution: "@deck.gl/react@npm:8.9.36"
+"@deck.gl/react@npm:8.9.27":
+  version: 8.9.27
+  resolution: "@deck.gl/react@npm:8.9.27"
   dependencies:
     "@babel/runtime": "npm:^7.0.0"
   peerDependencies:
@@ -488,7 +488,7 @@ __metadata:
     "@types/react": ">= 16.3"
     react: ">=16.3"
     react-dom: ">=16.3"
-  checksum: 10c0/cf5af570c982041d73de0def96d75609db1bb2cecaa8d34f6f891ccf7c3c19a9e177dbbd5d97b537e6fc48daf845d5fa123e183a241cff518d606dee3f794c56
+  checksum: 10c0/d17ce138be21511d02631d1a0f10a7ab47bca450bf8d88ea9e92ae1adba73c9189510fbb543aba43eced3d89704a9ff20c3edf6d72566d717fbb2643bc11f7da
   languageName: node
   linkType: hard
 
@@ -4463,7 +4463,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@luma.gl/constants@npm:8.5.21, @luma.gl/constants@npm:^8.5.20, @luma.gl/constants@npm:^8.5.21":
+"@luma.gl/constants@npm:8.5.21, @luma.gl/constants@npm:^8.5.20":
   version: 8.5.21
   resolution: "@luma.gl/constants@npm:8.5.21"
   checksum: 10c0/c444920f69eeaf2bc6c569d90871b1fbcd6e85b24c57d6ea11005ee69ca4e1afdf995bf1a38dd5af060c56490247bd42c802ce0c98c665a87a66ccac17c3ec10
@@ -4501,7 +4501,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@luma.gl/experimental@npm:^8.5.21":
+"@luma.gl/experimental@npm:^8.5.20":
   version: 8.5.21
   resolution: "@luma.gl/experimental@npm:8.5.21"
   dependencies:
@@ -4532,7 +4532,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@luma.gl/shadertools@npm:8.5.21, @luma.gl/shadertools@npm:^8.5.20, @luma.gl/shadertools@npm:^8.5.21":
+"@luma.gl/shadertools@npm:8.5.21, @luma.gl/shadertools@npm:^8.5.20":
   version: 8.5.21
   resolution: "@luma.gl/shadertools@npm:8.5.21"
   dependencies:
@@ -11312,6 +11312,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dotenv@npm:^16.0.0":
+  version: 16.6.1
+  resolution: "dotenv@npm:16.6.1"
+  checksum: 10c0/15ce56608326ea0d1d9414a5c8ee6dcf0fffc79d2c16422b4ac2268e7e2d76ff5a572d37ffe747c377de12005f14b3cc22361e79fc7f1061cce81f77d2c973dc
+  languageName: node
+  linkType: hard
+
 "dotenv@npm:^16.4.5":
   version: 16.4.7
   resolution: "dotenv@npm:16.4.7"
@@ -16092,6 +16099,7 @@ __metadata:
     apache-arrow: "npm:>=15.0.0"
     classnames: "npm:^2.2.1"
     d3-format: "npm:^2.0.0"
+    dotenv: "npm:^16.0.0"
     dropbox: "npm:^4.0.12"
     esbuild: "npm:^0.25.0"
     esbuild-plugin-replace: "npm:^1.4.0"

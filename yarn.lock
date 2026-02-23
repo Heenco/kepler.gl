@@ -21230,6 +21230,9 @@ __metadata:
     react: ">=18.2"
     react-dom: ">=18.2"
     styled-components: 6.1.8
+  dependenciesMeta:
+    gl:
+      optional: true
   languageName: unknown
   linkType: soft
 
