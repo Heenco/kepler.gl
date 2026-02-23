@@ -38,6 +38,7 @@
     "apache-arrow": ">=15.0.0",
     "classnames": "^2.2.1",
     "d3-format": "^2.0.0",
+    "dotenv": "^16.0.0",
     "dropbox": "^4.0.12",
     "esbuild": "^0.25.0",
     "global": "^4.3.0",
