@@ -1,7 +1,7 @@
 {
   "buildCommand": "cd examples/demo-app && yarn build",
   "outputDirectory": "examples/demo-app/dist",
-  "installCommand": "yarn install",
+  "installCommand": "yarn install --ignore-scripts",
   "rewrites": [
     {
       "source": "/(.*)",
