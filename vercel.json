@@ -1,11 +1,9 @@
 {
   "buildCommand": "yarn --cwd examples/demo-app install && cd examples/demo-app && yarn build",
   "outputDirectory": "examples/demo-app/dist",
-  "cleanUrls": true,
-  "trailingSlash": false,
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/((?!.*\\.).*)",
       "destination": "/index.html"
     }
   ],
