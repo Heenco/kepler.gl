@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd examples/demo-app && yarn build",
+  "buildCommand": "cd examples/demo-app && node esbuild.config.mjs --build",
   "outputDirectory": "examples/demo-app/dist",
   "installCommand": "yarn install",
   "rewrites": [
