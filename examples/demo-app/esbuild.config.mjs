@@ -3,7 +3,7 @@
 
 import esbuild from 'esbuild';
 import {replace} from 'esbuild-plugin-replace';
-import {dotenvRun} from '@dotenv-run/esbuild';
+import {config as dotenvConfig} from 'dotenv';
 
 import process from 'node:process';
 import fs from 'node:fs';
@@ -12,6 +12,12 @@ import {join} from 'node:path';
 import KeplerPackage from '../../package.json' assert {type: 'json'};
 
 const args = process.argv;
+
+// Load .env file manually
+dotenvConfig({path: '.env'});
+
+// Helper function to normalize paths for esbuild (always use forward slashes)
+const normalizePath = (path) => path.replace(/\\/g, '/');
 
 const BASE_NODE_MODULES_DIR = './node_modules';
 
@@ -36,20 +42,20 @@ const getThirdPartyLibraryAliases = useKeplerNodeModules => {
   const localSources = useKeplerNodeModules
     ? {
         // Suppress useless warnings from react-date-picker's dep
-        'tiny-warning': `${SRC_DIR}/utils/src/noop.ts`
+        'tiny-warning': normalizePath(`${SRC_DIR}/utils/src/noop.ts`)
       }
     : {};
 
   return {
     ...localSources,
-    react: `${nodeModulesDir}/react`,
-    'react-dom': `${nodeModulesDir}/react-dom`,
-    'react-redux': `${nodeModulesDir}/react-redux/lib`,
-    'styled-components': `${nodeModulesDir}/styled-components`,
-    'react-intl': `${nodeModulesDir}/react-intl`,
-    'react-palm': `${nodeModulesDir}/react-palm`,
+    react: normalizePath(`${nodeModulesDir}/react`),
+    'react-dom': normalizePath(`${nodeModulesDir}/react-dom`),
+    'react-redux': normalizePath(`${nodeModulesDir}/react-redux/lib`),
+    'styled-components': normalizePath(`${nodeModulesDir}/styled-components`),
+    'react-intl': normalizePath(`${nodeModulesDir}/react-intl`),
+    'react-palm': normalizePath(`${nodeModulesDir}/react-palm`),
     // kepler.gl and loaders.gl need to use same apache-arrow
-    'apache-arrow': `${nodeModulesDir}/apache-arrow`
+    'apache-arrow': normalizePath(`${nodeModulesDir}/apache-arrow`)
   };
 };
 
@@ -107,11 +113,6 @@ const config = {
     'process.env.NODE_ENV': NODE_ENV
   },
   plugins: [
-    dotenvRun({
-      verbose: true,
-      environment: NODE_ENV,
-      root: '../../.env'
-    }),
     // automatically injected kepler.gl package version into the bundle
     replace({
       __PACKAGE_VERSION__: KeplerPackage.version,
@@ -130,81 +131,81 @@ function addAliases(externals, args) {
 
   // resolve ai-assistant from local dir
   if (useLocalAiAssistant) {
-    resolveAlias['@openassistant/core'] = join(LIB_DIR, '../openassistant/packages/core/src');
-    resolveAlias['@openassistant/ui'] = join(LIB_DIR, '../openassistant/packages/ui/src');
-    resolveAlias['@openassistant/echarts'] = join(
+    resolveAlias['@openassistant/core'] = normalizePath(join(LIB_DIR, '../openassistant/packages/core/src'));
+    resolveAlias['@openassistant/ui'] = normalizePath(join(LIB_DIR, '../openassistant/packages/ui/src'));
+    resolveAlias['@openassistant/echarts'] = normalizePath(join(
       LIB_DIR,
       '../openassistant/packages/components/echarts/src'
-    );
-    resolveAlias['@openassistant/tables'] = join(
+    ));
+    resolveAlias['@openassistant/tables'] = normalizePath(join(
       LIB_DIR,
       '../openassistant/packages/components/tables/src'
-    );
-    resolveAlias['@openassistant/geoda'] = join(
+    ));
+    resolveAlias['@openassistant/geoda'] = normalizePath(join(
       LIB_DIR,
       '../openassistant/packages/tools/geoda/src'
-    );
-    resolveAlias['@openassistant/duckdb'] = join(
+    ));
+    resolveAlias['@openassistant/duckdb'] = normalizePath(join(
       LIB_DIR,
       '../openassistant/packages/tools/duckdb/src'
-    );
-    resolveAlias['@openassistant/plots'] = join(
+    ));
+    resolveAlias['@openassistant/plots'] = normalizePath(join(
       LIB_DIR,
       '../openassistant/packages/tools/plots/src'
-    );
-    resolveAlias['@openassistant/osm'] = join(LIB_DIR, '../openassistant/packages/tools/osm/src');
-    resolveAlias['@openassistant/utils'] = join(LIB_DIR, '../openassistant/packages/utils/src');
-    resolveAlias['@kepler.gl/ai-assistant'] = join(SRC_DIR, 'ai-assistant/src');
+    ));
+    resolveAlias['@openassistant/osm'] = normalizePath(join(LIB_DIR, '../openassistant/packages/tools/osm/src'));
+    resolveAlias['@openassistant/utils'] = normalizePath(join(LIB_DIR, '../openassistant/packages/utils/src'));
+    resolveAlias['@kepler.gl/ai-assistant'] = normalizePath(join(SRC_DIR, 'ai-assistant/src'));
   }
 
   // resolve deck.gl from local dir
   if (useLocalDeck || useRepoDeck) {
     // Load deck.gl from root node_modules
     // if env.deck_src Load deck.gl from deck.gl/modules/main/src folder parallel to kepler.gl
-    resolveAlias['deck.gl'] = useLocalDeck
+    resolveAlias['deck.gl'] = normalizePath(useLocalDeck
       ? `${NODE_MODULES_DIR}/deck.gl/src`
-      : `${EXTERNAL_DECK_SRC}/modules/main/src`;
+      : `${EXTERNAL_DECK_SRC}/modules/main/src`);
 
     // if env.deck Load @deck.gl modules from root node_modules/@deck.gl
     // if env.deck_src Load @deck.gl modules from  deck.gl/modules folder parallel to kepler.gl
     externals['deck.gl'].forEach(mdl => {
-      resolveAlias[`@deck.gl/${mdl}`] = useLocalDeck
+      resolveAlias[`@deck.gl/${mdl}`] = normalizePath(useLocalDeck
         ? `${NODE_MODULES_DIR}/@deck.gl/${mdl}/src`
-        : `${EXTERNAL_DECK_SRC}/modules/${mdl}/src`;
+        : `${EXTERNAL_DECK_SRC}/modules/${mdl}/src`);
       // types are stored in different directory
-      resolveAlias[`@deck.gl/${mdl}/typed`] = useLocalDeck
+      resolveAlias[`@deck.gl/${mdl}/typed`] = normalizePath(useLocalDeck
         ? `${NODE_MODULES_DIR}/@deck.gl/${mdl}/typed`
-        : `${EXTERNAL_DECK_SRC}/modules/${mdl}/src/types`;
+        : `${EXTERNAL_DECK_SRC}/modules/${mdl}/src/types`);
     });
 
     ['luma.gl', 'probe.gl', 'loaders.gl'].forEach(name => {
       // if env.deck Load ${name} from root node_modules
       // if env.deck_src Load ${name} from deck.gl/node_modules folder parallel to kepler.gl
-      resolveAlias[name] = useLocalDeck
+      resolveAlias[name] = normalizePath(useLocalDeck
         ? `${NODE_MODULES_DIR}/${name}/src`
         : name === 'probe.gl'
         ? `${EXTERNAL_DECK_SRC}/node_modules/${name}/src`
-        : `${EXTERNAL_DECK_SRC}/node_modules/@${name}/core/src`;
+        : `${EXTERNAL_DECK_SRC}/node_modules/@${name}/core/src`);
 
       // if env.deck Load @${name} modules from root node_modules/@${name}
       // if env.deck_src Load @${name} modules from deck.gl/node_modules/@${name} folder parallel to kepler.gl`
       externals[name].forEach(mdl => {
-        resolveAlias[`@${name}/${mdl}`] = useLocalDeck
+        resolveAlias[`@${name}/${mdl}`] = normalizePath(useLocalDeck
           ? `${NODE_MODULES_DIR}/@${name}/${mdl}/src`
-          : `${EXTERNAL_DECK_SRC}/node_modules/@${name}/${mdl}/src`;
+          : `${EXTERNAL_DECK_SRC}/node_modules/@${name}/${mdl}/src`);
       });
     });
   }
 
   if (args.includes('--env.loaders_src')) {
     externals['loaders.gl'].forEach(mdl => {
-      resolveAlias[`@loaders.gl/${mdl}`] = `${EXTERNAL_LOADERS_SRC}/modules/${mdl}/src`;
+      resolveAlias[`@loaders.gl/${mdl}`] = normalizePath(`${EXTERNAL_LOADERS_SRC}/modules/${mdl}/src`);
     });
   }
 
   if (args.includes('--env.hubble_src')) {
     externals['hubble.gl'].forEach(mdl => {
-      resolveAlias[`@hubble.gl/${mdl}`] = `${EXTERNAL_HUBBLE_SRC}/modules/${mdl}/src`;
+      resolveAlias[`@hubble.gl/${mdl}`] = normalizePath(`${EXTERNAL_HUBBLE_SRC}/modules/${mdl}/src`);
     });
   }
 
